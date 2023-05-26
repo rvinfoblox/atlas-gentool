@@ -43,8 +43,10 @@ RUN cd ${GOPATH}/src/github.com/infobloxopen && git clone --single-branch --bran
     cd ${GOPATH}/src/github.com/infobloxopen/grpc-gateway/protoc-gen-grpc-gateway && go build -o /out/usr/bin/protoc-gen-grpc-gateway main.go && \
     cd ${GOPATH}/src/github.com/infobloxopen/grpc-gateway/protoc-gen-openapiv2 && go build -o /out/usr/bin/protoc-gen-openapiv2 main.go
 
+RUN ls -aa
+
 # Build with infoblox atlas_patch.
-RUN cd ${GOPATH}/src/github.com/infobloxopen && git clone --single-branch --branch v1.0.0 https://github.com/infobloxopen/atlas-openapiv2-patch.git && \
+RUN cd ${GOPATH}/src/github.com/infobloxopen && git clone --single-branch --branch custom-resp-1 https://github.com/rvinfoblox/atlas-openapiv2-patch.git && \
     cd ${GOPATH}/src/github.com/infobloxopen/atlas-openapiv2-patch && go mod vendor && go build -o /out/usr/bin/atlas_patch ./cmd/server/.
 
 # Copy in proto files, some are in non-go packages and are stored in third_party
@@ -58,6 +60,7 @@ COPY --from=builder /out/usr /usr
 COPY --from=builder /out/protos /
 
 WORKDIR /go/src
+
 
 # protoc as an entry point for all plugins with import paths set
 ENTRYPOINT ["protoc", "-I.", \
