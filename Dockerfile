@@ -97,7 +97,7 @@ ENV GO111MODULE=on
 # Build with infoblox atlas_patch.
 RUN cd ${GOPATH}/src/github.com/infobloxopen && git clone --single-branch -b v1.0.1 https://github.com/infobloxopen/atlas-openapiv2-patch.git && \
     cd ${GOPATH}/src/github.com/infobloxopen/atlas-openapiv2-patch && go mod vendor && go build -o /out/usr/bin/atlas_patch ./cmd/server/.
-ENV GO111MODULE=on
+ENV GO111MODULE=off
 
 RUN mkdir -p /out/protos && \
     find ${GOPATH}/src -name "*.proto" -exec cp --parents {} /out/protos \;
