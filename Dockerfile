@@ -1,5 +1,5 @@
 # The docker image to generate Golang code from Protol Buffer.
-FROM golang:1.17.0-alpine3.14 as builder
+FROM golang:1.18.0-alpine3.14 as builder
 LABEL intermediate=true
 MAINTAINER DL NGP-App-Infra-API <ngp-app-infra-api@infoblox.com>
 
@@ -59,9 +59,10 @@ RUN go install github.com/gogo/protobuf/protoc-gen-gogofaster
 RUN go install github.com/gogo/protobuf/protoc-gen-gogoslick
 RUN go install github.com/gogo/protobuf/protoc-gen-gogotypes
 RUN go install github.com/gogo/protobuf/protoc-gen-gostring
+
+RUN ls
 ENV GO111MODULE=on
-RUN go get github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema@switch_jsonschema_library
-RUN go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema@switch_jsonschema_library
+RUN go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema@1.1.0
 ENV GO111MODULE=off
 RUN go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 RUN go install github.com/envoyproxy/protoc-gen-validate
